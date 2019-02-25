@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2824616403859803702}
   - component: {fileID: 797633263545842206}
   - component: {fileID: 6730221536590782510}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ground_overhang_right
   m_TagString: Untagged
   m_Icon: {fileID: 0}

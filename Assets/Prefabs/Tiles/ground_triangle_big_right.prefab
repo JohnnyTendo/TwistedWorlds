@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7727530364396544133}
   - component: {fileID: 6425540871707884450}
   - component: {fileID: 9061970197322002516}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ground_triangle_big_right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
