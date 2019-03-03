@@ -2,6 +2,18 @@
 
 public class PlayerController : MonoBehaviour
 {
+
+    #region Singleton
+
+    public static PlayerController instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+
+    #endregion
+    #region PrivateSteeringVars
     Rigidbody2D rb2d;
     Animator animator;
     float jumpSpeed = 250;
@@ -15,23 +27,26 @@ public class PlayerController : MonoBehaviour
     float hor;
     int maxLife = 3;
     int maxHealth = 5;
-
+    #endregion
+    #region Current Stats
     public int currentLife;
     public int currentHealth;
-
-    public float spellSpeed;
-
+    #endregion
+    #region GroundDetection
     public Transform groundCheck;
     public LayerMask whatIsGround;
     public LayerMask whatIsDeath;
     public LayerMask whatIsClimbable;
-
+    # endregion
+    #region SpellSpecs
+    public float spellSpeed;
     public GameObject spellPrefab;
     public Transform spellOrigin;
-
+    #endregion
+    #region UIStuff
     public GameObject[] lifeGui;
     public GameObject[] healthGui;
-
+    #endregion
 
     void Start()
     {
@@ -45,6 +60,28 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        for (int i = 0; i < healthGui.Length; i++)
+        {
+            if (i == currentHealth)
+            {
+                healthGui[i].SetActive(true);
+            }
+            else
+            {
+                healthGui[i].SetActive(false);
+            }
+        }
+        for (int i = 0; i < lifeGui.Length; i++)
+        {
+            if (i == currentLife)
+            {
+                lifeGui[i].SetActive(true);
+            }
+            else
+            {
+                lifeGui[i].SetActive(false);
+            }
+        }
         deathTrigger = Physics2D.OverlapCircle(groundCheck.position, 0.15F, whatIsDeath);
         if (!deathTrigger)
         {
@@ -57,15 +94,33 @@ public class PlayerController : MonoBehaviour
                 rb2d.velocity = new Vector2(rb2d.velocity.x, maxMoveSpeed);
             if (Input.GetKey("d"))
             {
-                hor = -1;
-                isLookingRight = true;
-                isLookingLeft = false;
+                if (!GameController.instance.isMirrored)
+                {
+                    hor = -1;
+                    isLookingRight = true;
+                    isLookingLeft = false;
+                }
+                if (GameController.instance.isMirrored)
+                {
+                    hor = 1;
+                    isLookingRight = false;
+                    isLookingLeft = true;
+                }
             }
             else if (Input.GetKey("a"))
             {
-                hor = 1;
-                isLookingLeft = true;
-                isLookingRight = false;
+                if (!GameController.instance.isMirrored)
+                {
+                    hor = 1;
+                    isLookingLeft = true;
+                    isLookingRight = false;
+                }
+                if (GameController.instance.isMirrored)
+                {
+                    hor = -1;
+                    isLookingLeft = false;
+                    isLookingRight = true;
+                }
             }
             else
             {
@@ -120,8 +175,6 @@ public class PlayerController : MonoBehaviour
         if (currentHealth >= 1)
         {
             currentHealth -= 1;
-            healthGui[currentHealth + 1].SetActive(false);
-            healthGui[currentHealth].SetActive(true);
             Debug.Log("Health: " + currentHealth);
         }
         else

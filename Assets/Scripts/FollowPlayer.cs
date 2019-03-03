@@ -2,7 +2,8 @@
 
 public class FollowPlayer : MonoBehaviour
 {
-    public GameObject background;
+    public GameObject lightBackground;
+    public GameObject darkBackground;
     public Transform target;
     public Vector3 offset;
     public Quaternion rotationOffset;
@@ -11,12 +12,21 @@ public class FollowPlayer : MonoBehaviour
     void Start()
     {
         cameraTransform = GetComponent<Transform>();
-        background.SetActive(true);
     }
 
     void Update()
     {
         cameraTransform.position = target.position + offset;
         cameraTransform.rotation = rotationOffset;
+        if(GameController.instance.isMirrored)
+        {
+            lightBackground.SetActive(false);
+            darkBackground.SetActive(true);
+        }
+        if (!GameController.instance.isMirrored)
+        {
+            lightBackground.SetActive(true);
+            darkBackground.SetActive(false);
+        }
     }
 }
