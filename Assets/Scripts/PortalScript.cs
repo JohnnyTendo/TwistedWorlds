@@ -19,5 +19,6 @@ public class PortalScript : MonoBehaviour
     {
         //Do some stuff here Like teleportation or scene change
         PlayerController.instance.transform.position = targetPortal.transform.position;
+        FollowPlayer.instance.CorruptionProgress();
     }
 }

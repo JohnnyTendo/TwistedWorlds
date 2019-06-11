@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
 
     #endregion
     #region PrivateSteeringVars
+    TimeBody tb;
     Rigidbody2D rb2d;
     Animator animator;
     float jumpSpeed = 250;
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
     float hor;
     int maxLife = 3;
     int maxHealth = 5;
+    Vector2 startingPosition;
+    Dialog deathMessage = new Dialog();
     #endregion
     #region Current Stats
     public int currentLife;
@@ -50,12 +53,17 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        startingPosition = this.transform.position;
         currentLife = maxLife;
         currentHealth = maxHealth;
         rb2d = GetComponent<Rigidbody2D>();
+        tb = GetComponent<TimeBody>();
         animator = GetComponent<Animator>();
         lifeGui[lifeGui.Length-1].SetActive(true);
         healthGui[healthGui.Length-1].SetActive(true);
+        deathMessage.title = "Grim Reaper";
+        deathMessage.messages = new string[1];
+        deathMessage.messages[0] = "You are dead...are you?";
     }
 
     void Update()
@@ -154,7 +162,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             //Taking Damage is a bit weird till now. Swap Invoke with something really helpfull, that delays the taking of damage
-            Invoke("TakeDamage", 2F);
+            TakeDamage();
         }
     }
 
@@ -170,11 +178,11 @@ public class PlayerController : MonoBehaviour
         spell.GetComponent<Rigidbody2D>().AddForce(new Vector3(-(Input.mousePosition.x + aim * spellSpeed), Input.mousePosition.y));
     }
 
-    void TakeDamage()
+    public void TakeDamage(int amount = 1)
     {
         if (currentHealth >= 1)
         {
-            currentHealth -= 1;
+            currentHealth -= amount;
             Debug.Log("Health: " + currentHealth);
         }
         else
@@ -189,9 +197,24 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
-                //Do Something when the Player died
-                Debug.Log("You are dead...are you?");
+                Die();
             }
         }
+    }
+
+    public void Die()
+    {
+        //Do Something when the Player died
+        //this.transform.position = startingPosition;
+        DialogManager.instance.StartDialog(deathMessage);
+        currentHealth = maxHealth;
+        currentLife = maxLife;
+        //use a layer over ui
+        tb.StartRewind();
+    }
+
+    public void SetSpawnLocation(Vector2 newSpawnpoint)
+    {
+        startingPosition = newSpawnpoint;
     }
 }

@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class DialogTrigger : MonoBehaviour
 {
+    private bool wasTriggered;
     public Dialog dialogue;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Player")
+        if (!wasTriggered)
         {
-            DialogManager.instance.StartDialog(dialogue);
+            if (collision.tag == "Player")
+            {
+                DialogManager.instance.StartDialog(dialogue);
+                wasTriggered = true;
+            }
         }
     }
 }

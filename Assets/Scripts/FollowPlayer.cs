@@ -2,8 +2,22 @@
 
 public class FollowPlayer : MonoBehaviour
 {
-    public GameObject lightBackground;
-    public GameObject darkBackground;
+
+    #region Singleton
+
+    public static FollowPlayer instance;
+
+    void Awake()
+    {
+        instance = this;
+    }
+    #endregion
+    #region BackgroundSystem
+    public GameObject[] backgrounds;
+    GameObject activeBackground;
+    int backgroundIndex;
+    #endregion
+
     public Transform target;
     public Vector3 offset;
     public Quaternion rotationOffset;
@@ -11,22 +25,33 @@ public class FollowPlayer : MonoBehaviour
 
     void Start()
     {
+        backgroundIndex = 0;
+        backgrounds[0].SetActive(true);
         cameraTransform = GetComponent<Transform>();
     }
 
-    void Update()
+    private void Update()
     {
-        cameraTransform.position = target.position + offset;
-        cameraTransform.rotation = rotationOffset;
-        if(GameController.instance.isMirrored)
+        cameraTransform.position = new Vector3(target.position.x, target.position.y, +10);
+    }
+
+
+    public void CorruptionProgress()
+    {
+        if (backgroundIndex < backgrounds.Length)
         {
-            lightBackground.SetActive(false);
-            darkBackground.SetActive(true);
-        }
-        if (!GameController.instance.isMirrored)
-        {
-            lightBackground.SetActive(true);
-            darkBackground.SetActive(false);
+            backgroundIndex++;
+            for (int i = 0; i < backgrounds.Length; i++)
+            {
+                if (i == backgroundIndex)
+                {
+                    backgrounds[i].SetActive(true);
+                }
+                else
+                {
+                    backgrounds[i].SetActive(false);
+                }
+            }
         }
     }
 }

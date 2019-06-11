@@ -4710,6 +4710,7 @@ GameObject:
   - component: {fileID: 4921952804093924514}
   - component: {fileID: 4921952804093924517}
   - component: {fileID: 4921952804093924516}
+  - component: {fileID: 7786732831359639832}
   m_Layer: 0
   m_Name: mirrorPortal
   m_TagString: Untagged
@@ -4724,7 +4725,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4921952804093924519}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.75, y: 15.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4816,5 +4817,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f0bf71e8c85ba0645a62b3a9f67eb69b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPortal: {fileID: 0}
+--- !u!114 &7786732831359639832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4921952804093924519}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a900af0ac275dd24ab998b0cae89f5eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
